@@ -1,22 +1,32 @@
 class Solution {
     public String convert(String s, int numRows) {
-        if(numRows == 1) return s;
-        List<StringBuilder> li=new ArrayList<>();
-        for(int i=0;i<numRows;i++){
-            li.add(new StringBuilder());
+                if (numRows == 1 || s.length() <= numRows) {
+            return s;
         }
-        int r=0;
-        int dir=1;
-        for(int i=0;i<s.length();i++){
-            li.get(r).append(s.charAt(i));
-            if(r==0) dir=1;
-            else if(r==numRows-1) dir=-1;
-            r+=dir;
+
+        StringBuilder[] rows = new StringBuilder[numRows];
+        for (int i = 0; i < numRows; i++) {
+            rows[i] = new StringBuilder();
         }
-        StringBuilder res=new StringBuilder();
-        for(StringBuilder sb:li){
-            res.append(sb);
+
+        int currRow = 0;
+        boolean goingDown = false;
+
+        for (char c : s.toCharArray()) {
+            rows[currRow].append(c);
+
+            if (currRow == 0 || currRow == numRows - 1) {
+                goingDown = !goingDown;
+            }
+
+            currRow += goingDown ? 1 : -1;
         }
-        return res.toString();
+
+        StringBuilder result = new StringBuilder();
+        for (StringBuilder row : rows) {
+            result.append(row);
+        }
+
+        return result.toString();
     }
 }
