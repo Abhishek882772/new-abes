@@ -3,7 +3,7 @@ class Solution {
      int min1=Integer.MAX_VALUE;
      int min2=Integer.MAX_VALUE;
      int ans=Integer.MAX_VALUE;
-      for(int i=0;i<landS.length;i++){
+     for(int i=0;i<landS.length;i++){
         min1=Math.min(min1,landS[i]+landD[i]);
       }
       for(int i=0;i<waterS.length;i++){
