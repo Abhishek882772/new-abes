@@ -5,36 +5,25 @@ class Solution {
         int ans=0;
         int zeror=0;
         int zerol=0;
-        int mid1=0;
          while(i<s.length()){ 
-            if(s.charAt(i)=='1')total1++;
-            i++;
-         }
-         i=0;
-       while(i<s.length()){ 
-        zerol=zeror;
-        zeror=0;
-        while(i<s.length() && s.charAt(i)=='1'){
-            i++;
-           
-        }
-        if(zerol==0){while(i<s.length() && s.charAt(i)=='0'){
-            i++;
+            if(s.charAt(i)=='0'){
             zerol++;
-        }}
-        while(i<s.length() && s.charAt(i)=='1'){
             i++;
+            }
+            else{
+                while(i<s.length() && s.charAt(i)=='1'){ 
+                total1++;
+                i++;}
+                while(i<s.length() && s.charAt(i)=='0'){
+                    zeror++;
+                    i++;
+                }
+            
+            if(zerol!=0 && zeror!=0) ans=Math.max(ans,zerol+zeror);
+            zerol=zeror;
+            zeror=0;
+            }
         }
-         while(i<s.length() && s.charAt(i)=='0'){
-            i++;
-            zeror++;
-        }
-        while(i<s.length() && s.charAt(i)=='1'){
-            i++;
-        }
-        if(zerol>0 && zeror>0) ans= Math.max(ans,total1+zerol+zeror);
-        else ans=Math.max(ans,total1);
-        }
-        return ans;
+        return ans+total1;
     }
 }
