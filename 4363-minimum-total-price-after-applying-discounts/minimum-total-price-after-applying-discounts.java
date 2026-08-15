@@ -7,7 +7,7 @@ class Solution {
         double ans=0;
         while(i>=0){
             if(j>=0){
-                ans+=((double)(prices[i]*(100-discounts[j]))/100);
+                ans+=((prices[i]*(100.0-discounts[j]))/100.0);
                 j--;
             }
             else ans+=prices[i];
