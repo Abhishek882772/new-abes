@@ -1,17 +1,22 @@
 class Solution {
     public int coinChange(int[] coins, int amount) {
-        int[][] dp=new int[coins.length][amount +1];
-        for(int i=0;i<dp.length;i++)Arrays.fill(dp[i], -1);
-        int ans= gettheno(coins,amount,coins.length-1,dp);
-        return ans >=100000000?-1:ans;
-    }
-    private int gettheno(int[] coins, int amount,int i,int[][] dp){
-        if(amount==0) return 0;
-        if(i<0) return 100000000;
-        if(dp[i][amount] != -1)return dp[i][amount];
-        if(coins[i] > amount) return gettheno(coins,amount,i-1,dp); 
-            int nott=0+gettheno(coins,amount,i-1,dp);
-            int take= 1+gettheno(coins,amount-coins[i],i,dp);
-            return dp[i][amount]= Math.min(take,nott);
-    }
+        int[][] dp=new int[coins.length][amount+1];
+        int INF=100000000;
+        for(int i=0;i<coins.length;i++){
+            dp[i][0]=0;
+        }
+        for(int i=1;i<=amount;i++){
+            if(i % coins[0]==0) dp[0][i]=i/coins[0];
+            else dp[0][i]=INF;
+        }
+        for(int i=1;i<coins.length;i++){
+            for(int j=1;j<=amount;j++){
+                int nott= dp[i-1][j];
+                int take= INF;
+                if(coins[i] <= j) take =1+dp[i][j-coins[i]];
+                dp[i][j]=Math.min(take,nott);
+            }
+        }
+        return dp[coins.length-1][amount]>=INF?-1:dp[coins.length-1][amount];
+       }
 }
