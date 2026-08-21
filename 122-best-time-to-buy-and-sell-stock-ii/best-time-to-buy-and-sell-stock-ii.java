@@ -1,18 +1,12 @@
 class Solution {
     public int maxProfit(int[] prices) {
         int[][] dp=new int[prices.length][2];
-        for(int i=0;i<prices.length;i++)Arrays.fill(dp[i],-1);
-        return buystock(prices,0,1,dp);
-    }
-    private int buystock(int[] prices,int i,int buy,int[][]dp){
-        if(i==prices.length) return 0;
-        if(dp[i][buy] != -1) return dp[i][buy];
-        if(buy==1){
-            dp[i][buy]=Math.max((-prices[i])+buystock(prices,i+1,0,dp) , buystock(prices,i+1,1,dp));
+        dp[0][1]=0;
+        dp[0][0]=-prices[0];
+        for(int i=1;i<prices.length;i++){
+            dp[i][0]=Math.max(dp[i-1][0], dp[i-1][1]-prices[i]);
+            dp[i][1]=Math.max(dp[i-1][1], dp[i-1][0]+prices[i]);
         }
-        else{
-            dp[i][buy]=Math.max(prices[i]+buystock(prices,i+1,1,dp) , buystock(prices,i+1,0,dp));
-        }
-        return dp[i][buy];
+        return dp[prices.length-1][1];
     }
 }
