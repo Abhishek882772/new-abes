@@ -1,14 +1,16 @@
 class Solution {
     public int maxProfit(int[] prices) {
-        int[][][] dp=new int[prices.length][2][3];
-        for(int i=0;i<prices.length;i++){for(int j=0;j<2;j++) Arrays.fill(dp[i][j],-1);}
-        return allowed(prices,2,1,0,dp);
-    }
-    private int allowed(int[] prices,int cap,int buy,int i,int[][][] dp){
-        if(i==prices.length || cap==0) return 0;
-        if(dp[i][buy][cap] != -1) return dp[i][buy][cap];
-        if(buy ==1) dp[i][buy][cap]=Math.max((-prices[i])+allowed(prices,cap,0,i+1,dp), allowed(prices,cap,1,i+1,dp));
-        else dp[i][buy][cap]=Math.max((prices[i])+allowed(prices,cap-1,1,i+1,dp), allowed(prices,cap,0,i+1,dp));
-        return dp[i][buy][cap];
+        int n = prices.length;
+        if (n == 0) return 0;               // also guards the dp[0][0][1] crash on empty input
+        int[][][] dp = new int[n][2][3];
+        dp[0][0][1] = -prices[0];
+        dp[0][0][2] = -prices[0];
+        for (int i = 1; i < n; i++) {
+            for (int k = 1; k < 3; k++) {
+                dp[i][0][k] = Math.max(-prices[i] + dp[i-1][1][k-1], dp[i-1][0][k]); // holding
+                dp[i][1][k] = Math.max(prices[i]  + dp[i-1][0][k],   dp[i-1][1][k]); // sold
+            }
+        }
+        return dp[n-1][1][2];
     }
 }
