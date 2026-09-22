@@ -14,14 +14,27 @@
  * }
  */
 class Solution {
-    private int getsum(TreeNode root,long t){
-        if (root ==null) return 0;
-        int c=0;
-        if(t==root.val) c++;
-        return  c+getsum(root.left,t-root.val)+getsum(root.right,t-root.val);
-    }
     public int pathSum(TreeNode root, int targetSum) {
-        if(root==null) return 0;
-        return getsum(root,(long)targetSum) + pathSum(root.left,targetSum)+ pathSum(root.right, targetSum);
+        Map<Long, Integer> prefixSum = new HashMap<>();
+        prefixSum.put(0L, 1);
+        return dfs(root, 0L, targetSum, prefixSum);
     }
+
+    private int dfs(TreeNode node, long currentSum, int targetSum, Map<Long, Integer> prefixSum) {
+        if (node == null) {
+            return 0;
+        }
+
+        currentSum += node.val;
+        int count = prefixSum.getOrDefault(currentSum - targetSum, 0);
+
+        prefixSum.put(currentSum, prefixSum.getOrDefault(currentSum, 0) + 1);
+
+        count += dfs(node.left, currentSum, targetSum, prefixSum);
+        count += dfs(node.right, currentSum, targetSum, prefixSum);
+
+        prefixSum.put(currentSum, prefixSum.get(currentSum) - 1);
+        return count;
+    }
+
 }
