@@ -8,18 +8,13 @@ class Solution {
             map.put(nums1[i]+nums2[j],map.getOrDefault(nums1[i]+nums2[j],0)+1);
         }
      }
-     HashMap<Integer,Integer> map1=new HashMap<>();
      for(int i=0;i<n;i++){
         for(int j=0;j<n;j++){
             int m=(nums3[i]+nums4[j]) *(-1);
-            map1.put(m,map1.getOrDefault(m,0)+1);
+           count+= map.getOrDefault(m,0);
         }
      }
-     for(int s:map.keySet()){
-        if(map1.containsKey(s)){
-            count+=(map.get(s)*map1.get(s));
-        }
-     }
+     
      return count;
     }
 }
